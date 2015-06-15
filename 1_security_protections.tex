@@ -1,0 +1,82 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+
+% Modify margins
+\usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=3.00cm]{geometry}
+
+% Custom headers and footers
+\usepackage{fancyhdr} 
+
+% Makes all pages in the document conform to the custom headers and footers
+\pagestyle{fancy} 
+
+\lhead{Operating Systems Administration}
+\chead{}
+\rhead{Treball de curs \textit{Security and Protections}}
+
+\fancyfoot[L]{} 					% Empty left footer
+\fancyfoot[C]{} 					% Empty center footer
+\fancyfoot[R]{\thepage} 			% Page numbering for right footer
+\renewcommand{\headrulewidth}{0.1pt} 	% Remove header underlines
+\renewcommand{\footrulewidth}{0pt} 	% Remove footer underlines
+\setlength{\headheight}{13.6pt} 	% Customize the height of the header
+
+% Enable figure precise position
+\usepackage{float}
+
+% Provides good access to colours
+\usepackage[table,xcdraw]{xcolor}
+\definecolor{darkblue}{rgb}{0.1,0.1,0.5}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+% Removes all indentation from paragraphs
+\setlength\parindent{0pt} 
+\newcommand{\fbf}[1]{$\boldsymbol{#1}$}
+
+\title{
+	\normalfont \normalsize 
+	\textsc{FIB, Operating Systems Administration} \\ [25pt] % Your university, school and/or department name(s)
+	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+	\huge 1st Assignment: \textit{Security and Protections}\\ % The assignment title
+	\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+\author{Arnau Sangrà i Rocamora}
+\date{\normalsize\today} % Today's date or a custom dat
+
+\begin{document}
+	\rowcolors{2}{gray!25}{white}
+	\maketitle
+	
+	Assigneu les proteccions a directoris i fitxers per tal que el fitxer...\\
+	\texttt{\$ ls -l ./dirdades/dades.txt}
+	
+	\begin{figure}[H]
+		\begin{tabular}{llllllll}
+		permissions & hl & user & group & size & date & hour &  \\  \hline
+		-rw-rw-r-- & 1  & aso01  & aso01  & 9778 & Nov 28 & 18:10  & ./dirdades/dades.txt \\ 
+		\end{tabular}
+	\end{figure}
+	
+	\begin{itemize}
+		\item 	Només el pugui modificar el propietari
+		\item 	El pugui llegir tot el grup
+		\item 	Només el pugui esborrar el propietari
+		\item 	Només el propietari pugui fer un “ls” del directori
+	\end{itemize}
+	\begin{center}
+		\textbf{Cal que les 4 condicions es compleixin a l'hora.}
+	\end{center}
+	\color{darkblue}In order to guarantee the given constraints, one possible solution depending on the interpretation coud be accomplished with the following commands.\\
+	
+	\texttt{\$ chmod 640 ./dirdades/dades.txt}\\
+	\texttt{\$ chmod u=rwx,go-rw dirdades/}\\
+	
+	The first command restricts the permissions over dades.txt, more precisely, the flag 640 is equivalent to allow read and write to the owner and read-only to the group. Other users have no permission to read, write nor execute.\\
+	Concerning the second command, it ensures full permission to the owner and regarding the users from the group or not, yet having access to the folder, can not add or remove files in it nor even list the directory content.
+\end{document}

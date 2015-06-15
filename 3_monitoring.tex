@@ -1,0 +1,83 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+
+% Modify margins
+\usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=3.00cm]{geometry}
+
+% Custom headers and footers
+\usepackage{fancyhdr} 
+
+% Makes all pages in the document conform to the custom headers and footers
+\pagestyle{fancy} 
+
+\lhead{Operating Systems Administration}
+\chead{}
+\rhead{Treball de curs \textit{Monitoring}}
+
+\fancyfoot[L]{} 					% Empty left footer
+\fancyfoot[C]{} 					% Empty center footer
+\fancyfoot[R]{\thepage} 			% Page numbering for right footer
+\renewcommand{\headrulewidth}{0.1pt} 	% Remove header underlines
+\renewcommand{\footrulewidth}{0pt} 	% Remove footer underlines
+\setlength{\headheight}{13.6pt} 	% Customize the height of the header
+
+% Enable figure precise position
+\usepackage{float}
+
+% Provides good access to colours
+\usepackage[table,xcdraw]{xcolor}
+\definecolor{darkblue}{rgb}{0.1,0.1,0.5}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+% Removes all indentation from paragraphs
+\setlength\parindent{0pt} 
+\newcommand{\fbf}[1]{$\boldsymbol{#1}$}
+
+\title{
+	\normalfont \normalsize 
+	\textsc{FIB, Operating Systems Administration} \\ [25pt] % Your university, school and/or department name(s)
+	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+	\huge 3rd Assignment: \textit{Monitoring}\\ % The assignment title
+	\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+\author{Arnau Sangrà i Rocamora}
+\date{\normalsize\today} % Today's date or a custom dat
+
+\begin{document}
+	\rowcolors{2}{gray!25}{white}
+	\maketitle
+	
+	Responeu les següents preguntes sobre monitorització:\\
+	\begin{itemize}
+		\item Per la comanda 'ps', determineu quines opcions a la línia de comandes s'han de fer servir per poder veure una sortida "a mida" que contingui: username de l'usuari que està executant el procés, PID, processador en el que ha corregut, estat d'execució i arguments.
+		\item És possible amb aquesta sortida determinar quins són en cada moment els processadors que estan executant un procés d'usuari?, i quin és aquest procés?
+		\item A la comanda top, esbrineu quina opció interactiva permet visualitzar els processadors, juntament amb els processos que cadascun està executant
+	\end{itemize}
+	
+	\vspace{1cm}
+	
+	\color{darkblue}
+	Customize 'ps' command to show more readable info:
+	\begin{itemize}
+		\item \texttt{\$ ps -e -o pid,pcpu,pmem,tty,time,uname,cmd --headers}
+	\end{itemize}
+	
+	\vspace{0.5cm}
+	
+	Determine with \texttt{ps} at each moment what are the processors that are executing a certain process:\\
+	
+	Due to the process execution policy typical of \textit{Unix}, called \textit{Round Robin}, since processes are constantly switching from one state to another (ready, waiting, running, etc.), it becomes quite difficult to determine at each moment what is the processor executing each process of a user with the ps command.\\
+	In order to recover that information, the \texttt{top} command becomes much more appropriate to display that information as it updates displayed content periodically. Even that, processes switch between states much faster than the typical update period.
+	
+	\vspace{0.7cm}
+	Determine the interactive option that allows the visualization of the processor that runs each process:\\
+	
+	In order to visualise the processors and the processes being run at each one, by pressing \textit{1} when using \texttt{top}, the program adds information relative to the processors.	
+	
+\end{document}

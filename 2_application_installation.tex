@@ -1,0 +1,100 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+
+% Modify margins
+\usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=3.00cm]{geometry}
+
+% Custom headers and footers
+\usepackage{fancyhdr} 
+
+% Makes all pages in the document conform to the custom headers and footers
+\pagestyle{fancy} 
+
+\lhead{Operating Systems Administration}
+\chead{}
+\rhead{Treball de curs \textit{Security and Protections}}
+
+\fancyfoot[L]{} 					% Empty left footer
+\fancyfoot[C]{} 					% Empty center footer
+\fancyfoot[R]{\thepage} 			% Page numbering for right footer
+\renewcommand{\headrulewidth}{0.1pt} 	% Remove header underlines
+\renewcommand{\footrulewidth}{0pt} 	% Remove footer underlines
+\setlength{\headheight}{13.6pt} 	% Customize the height of the header
+
+% Enable figure precise position
+\usepackage{float}
+
+% Provides good access to colours
+\usepackage[table,xcdraw]{xcolor}
+\definecolor{darkblue}{rgb}{0.1,0.1,0.5}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+% Removes all indentation from paragraphs
+\setlength\parindent{0pt} 
+\newcommand{\fbf}[1]{$\boldsymbol{#1}$}
+
+\title{
+	\normalfont \normalsize 
+	\textsc{FIB, Operating Systems Administration} \\ [25pt] % Your university, school and/or department name(s)
+	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+	\huge 2nd Assignment: \textit{Application Installation}\\ % The assignment title
+	\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+\author{Arnau Sangrà i Rocamora}
+\date{\normalsize\today} % Today's date or a custom dat
+
+\begin{document}
+	\rowcolors{2}{gray!25}{white}
+	\maketitle
+	
+	Quines maneres d'instal.lar aplicacions coneixeu? Buscar informació sobre els següents formats de distribució d'aplicacions: tar, gz, rpm, deb i zip.\\
+	Indiqueu les comandes [i les seves opcions] que es poden fer servir per:
+	\begin{itemize}
+		\item Veure el contingut d'aquests tipus de fitxers
+		\item Extreure el seu contingut, amb possibilitats d'extreure'l només parcialment
+	\end{itemize}
+	\color{darkblue}
+	When installing applications on a UNIX system, there are several ways to accomplish the installation, each one has its advantages and drawbacks. Depending on our goals, it might be better one way than another.\\
+	
+	\begin{itemize}
+		\item \textbf{From source code}\\ Despite being more complex than the other methods, installing from source code, the user can install the application on every specific and rare system and tune the application to fit the specific user requirements. The most noticeable drawback is the installation of the application dependencies which can lead to a recursive problem or when updating the application.
+		
+		\item \textbf{Self-installable binaries}\\
+		These way is mostly used by privative software. The installation suits the application, all the dependencies are bundled. Whilst ensuring the correct execution of the application it usually leads to duplication of dependencies and use of outdated libraries with discovered vulnerabilities.
+		 
+		\item \textbf{Pre-compiled binaries}\\ Applications installed from pre-compiled binaries are specially tailored for the system in general terms. Usually these are acquired from repositories for specific OS's. Despite being packages for an concrete operating system and architecture, their principal drawback is precisely that its target is the main public and the final user have not control of the compilation options used which may be particularly useful for their own system.
+		
+	\end{itemize}
+	When downloading applications, the extension of the file/s downloaded are used to denote the format of the file. Some of the most common extensions are:
+	\begin{itemize}
+		\item \texttt{tar} stands for \textit{Tape Archive} and is the most common way to distribute source code. With the unix command \texttt{tar} it is possible to manage archived files which can also be compressed in order to save space. The most important options are \textit{-t} to list the content of a tar file, \texttt{-x} to unarchive or \texttt{-c} to archive the files and \texttt{-f} to specify the file. As mentioned before, it is possible to compress or uncompress the tar files by using different options such as to \textit{gzip} (\texttt{-z}) or \textit{bzip2} (\texttt{-j}) programs. One way to specify the files to be extracted is by adding \texttt{--wildcards} and \texttt{--no-anchored} arguments followed by an escaped regex with the files to extract pattern.
+		
+		
+		\item \texttt{rpm} refers to RPM Package Manager, initially created for Red Hat OS, and later incorporated in other Linux distributions such as SuSE or Mandriva and files with .rpm extension.
+		\begin{itemize}
+			\item[] \texttt{-i} package\_name to install the package.
+			\item[] \texttt{-l} lists files of the package
+			\item[] \texttt{-c} list only configuration files (implies -l).
+			\item[] \texttt{-d} list only documentation files (implies -l).
+		\end{itemize}
+		
+		
+		\item \texttt{deb} is a file extension used by Debian binary packages. These files are usually handled by the program \texttt{dpkg} from Debian and other OS based on that. Files with this extension are no different than other Unix archives. Internally they store two tar files one for the control information and the other one actually contains de program data.
+		
+		
+		\item \texttt{pacman} is the main package manager of \textit{Arch Linux}. Its goal is to simplify the installation of packages and its dependencies. Pacman can install either from the official Arch Linux Repository or packages build by the own user, i.e. from the AUR (Arch User Repository). Written in C, it handles packages withwith {pkg.tar.xz} extension. Depending on the first character of the option, pacman will query the local installed packages \texttt{-Q} or the package repository \texttt{-S}. Some of the most important features are achieved with the following options:
+		\begin{itemize}
+			\item[] \texttt{-Qs package\_name} Search the installed packages database for certain package.
+			\item[] \texttt{-Ss package\_name} Search for a pattern in the package repository in both name and description fields.
+			\item[] \texttt{-S package\_name} Install the package from the repositories that matches the provided argument.
+			\item[] \texttt{-Qen} List all the user installed packages.
+			\item[] \texttt{-Syu} Synchronize package database and update the system to latest version.
+		\end{itemize}
+	\end{itemize} 
+\end{document}

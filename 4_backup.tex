@@ -1,0 +1,137 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+
+\newcommand{\FolderOpen}[1][.8\ht\strutbox]{%
+	\includegraphics[height=#1]{FolderOpen}%
+}
+
+% Modify margins
+\usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=3.00cm]{geometry}
+
+% Custom headers and footers
+\usepackage{fancyhdr} 
+
+% Makes all pages in the document conform to the custom headers and footers
+\pagestyle{fancy} 
+
+\lhead{Operating Systems Administration}
+\chead{}
+\rhead{Treball de curs \textit{Backup}}
+
+\fancyfoot[L]{} 					% Empty left footer
+\fancyfoot[C]{} 					% Empty center footer
+\fancyfoot[R]{\thepage} 			% Page numbering for right footer
+\renewcommand{\headrulewidth}{0.1pt} 	% Remove header underlines
+\renewcommand{\footrulewidth}{0pt} 	% Remove footer underlines
+\setlength{\headheight}{13.6pt} 	% Customize the height of the header
+
+% Enable figure precise position
+\usepackage{float}
+
+% Provides good access to colours
+\usepackage[table,xcdraw]{xcolor}
+\definecolor{darkblue}{rgb}{0.1,0.1,0.5}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+% Removes all indentation from paragraphs
+\setlength\parindent{0pt} 
+\newcommand{\fbf}[1]{$\boldsymbol{#1}$}
+
+\title{
+	\normalfont \normalsize 
+	\textsc{FIB, Operating Systems Administration} \\ [25pt] % Your university, school and/or department name(s)
+	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+	\huge 4th Assignment: \textit{Backup}\\ % The assignment title
+	\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+\author{Arnau Sangrà i Rocamora}
+\date{\normalsize\today} % Today's date or a custom dat
+
+\begin{document}
+	\rowcolors{2}{blue!10}{white}
+	\maketitle
+
+	\color{darkblue}
+	Responeu les següents preguntes sobre backups:\\
+	Disposem de:
+	\begin{itemize}
+	\item 1 disc d'1 TByte
+	\item 1 unitat de cintes de 5TBytes, amb robot que carrega automàticament la cinta necessitada
+	\item 1 unitat de DVD regrabable de 4.7 GBytes, amb robot que carrega automàticament el DVD
+	\end{itemize}
+
+	L'organització del disc en particions és aquesta:
+	\begin{figure}[H]
+		\centering	
+		\begin{tabular}{lllll}
+		\cellcolor[HTML]{353F89}{\color[HTML]{FFFFFF} Directori} & \cellcolor[HTML]{353F89}{\color[HTML]{FFFFFF} Mida} & \cellcolor[HTML]{353F89}{\color[HTML]{FFFFFF}Partició} & \cellcolor[HTML]{353F89}{\color[HTML]{FFFFFF}Ocupació} & \cellcolor[HTML]{353F89}{\color[HTML]{FFFFFF}Variabilitat} \\
+		\texttt{/i/usr} & 50 GBytes & /dev/sda1 & 90\% & 1 canvi gran cada 6 mesos \\ 
+		\texttt{/tmp}      & 20 GBytes  & /dev/sda2 & 20\% & molts canvis \\
+		\texttt{/var/log}  & 20 GBytes  & /dev/sda4 & 10\% & molts canvis, increment ràpid \\
+		\texttt{/var/mail} & 40 GBytes  & /dev/sda5 & 50\% & molts canvis petits \\
+		\texttt{/usr/local}& 100 GBytes & /dev/sda6 & 50\% & 1 canvi gran cada mes \\
+		\texttt{/opt}      & 200 GBytes & /dev/sda7 & 50\% & 1 canvi gran cada 3 mesos \\
+		\texttt{/database} & 115 Gbytes & /dev/sda8 & 80\% & canvis petits diaris \\
+		\texttt{/home}     & 500 Gbytes & /dev/sda9 & 30\% & canvis petits diaris \\
+		\end{tabular}
+	\end{figure}
+	
+
+	
+	Definiu una política de backups per les particions anteriors. Per a cadascuna indiqueu:
+	\begin{enumerate}
+		\item Tipus de backup
+		\item Freqüència del backup total
+		\item Freq. del backup incremental (o incremental invers)
+		\item Backup en Disc, DVD o cinta i per què?
+		\item Indiqueu com feu la rotació de les cintes i dels DVDs i quines/quins guardeu a fora de l'organització
+	\end{enumerate}	
+
+	Podeu consultar aquesta informació:
+	
+	\href{http://en.wikipedia.org/wiki/Hard_disk_drive}{Informació addicional a Viquipèdia sobre Hard Disk Drive}\\
+	\href{http://en.wikipedia.org/wiki/Tape_drive}{Informació addicional a Viquipèdia sobre Emmagatzematge en Cintes}\\
+	\begin{center}
+				{\footnotesize \textit{Entregueu les respostes per a cada partició en un document PDF.}}
+	\end{center}
+
+	\newpage
+	\color{black}
+	The  diverse storage media available for backups (DVD, HDD, Tape) would/must/should be stored in different places. This way, in case of anything happens occurs, even tough the local backups were destroyed, recovery would still be possible from the backups kept safe far away from the affected area. In this particular case, as the DVD and the HDD are faster than the tape, these could be kept at the company building for a rapid recovery, having the high capacity tape outside the headquarters.
+	
+	\begin{itemize}
+		\item[\FolderOpen]  \texttt{/i/usr}\\
+			As the partition changes completely half a year, a complete backup of the partition every 6 month should be stowed in the tape. Small changes could be quickly recovered through and additionally incremental backup every stored into the HDD 15 days.\\
+			
+		\item[\FolderOpen] \texttt{/temp}\\
+			Even tough this partition changes constantly, most OS tend to delete the content of this folder at every system reboot, thus, it is senseless to keep a backup for this directory.
+			
+		\item[\FolderOpen] \texttt{/var/log}\\
+			System logs may be fundamental to perform a forensics analysis in case of an incidence. Thereby, a complete weekly backup must be done to ensure persistence. The backup should be stored into the HDD for a quicker restoration as well as into the tape, since it is kept far away from the company headquarters.
+		
+		\item[\FolderOpen] \texttt{/var/mail}\\
+			As the mail directory changes every day with new messages, an incremental backup every day could be kept into the HDD. Also a complete backup can be made into the tape every week or any reasonable period wider than the incremental.
+		
+		\item[\FolderOpen] \texttt{/usr/local}\\
+			Similarly to the previous partition, assuming that this folder is not as variable as the mail directory, an incremental backup should be done to keep track of minor changes every week. Since it suffers big changes every month, a complete backup must be kept in the tape to assure a certain useful fail back version in case of loss.
+		
+		\item[\FolderOpen] \texttt{/opt}\\
+			Likewise the /usr/local folder, as we still have space in the hard disk, an incremental backup every month can be may stored in the HDD and a complete backup every trimester into the tape to keep track of big changes.
+
+		\item[\FolderOpen] \texttt{/database}\\
+			The DB partition changes everyday with small variations, so an incremental backup every day or week depending of the importance for the company is recommended. This backup should be stored in the HDD. A secondary backup should be kept in the tape, this time resulting in a complete weekly backup.
+			
+		\item[\FolderOpen] \texttt{/home}\\
+			This partition contains the personal directories of the computer users but root, hence, it is specially important to keep a backup with the latest changes made everyday to allow the employees recover normality after an incidence. To do so, an daily incremental backup  in the HDD should be done. Also, every week a secondary complete backup could be stored in the tape for a safer policy.
+	\end{itemize}
+	
+	
+	
+	\end{document}
